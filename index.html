@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type="text/javascript" src="d3.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>KRAS to ELK pathway</title>
+</head>
+
+<body>
+    <script src="index.js"></script>
+    
+    <div id="sidebar">
+        <div id="atlas">
+            <h2>atlas</h2>
+            <table>
+                <tr>
+                    <th>modification</th>
+                    <th>value options</th>
+                </tr>
+                <tr>
+                    <td>justify</td>
+                    <td>0: top-weighted<br>
+                        1: center-weighted</td>
+                </tr>
+                <tr>
+                    <td>link_weight</td>
+                    <td>1: default (1px)<br>
+                        !1: use weights specified in links file</td>
+                </tr>
+                <tr>
+                    <td>link_type</td>
+                    <td>0: straight line<br>
+                        1: bezier curve (default)<br>
+                        2: bundled bezier curve</td>
+                </tr>
+                <tr>
+                    <td>link_color</td>
+                    <td>any color hex code</td>
+                </tr>
+                <tr>
+                    <td>link_gradient</td>
+                    <td>0: solid color<br>
+                        !0: gradient</td>
+                </tr>
+                <tr>
+                    <td>node_bg_color</td>
+                    <td>0: solid color<br>
+                    !0: gradient</td>
+                </tr>
+                <tr>
+                    <td>node_r</td>
+                    <td>0-50: dictates radius of node corners</td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div id="info">
+
+        </div>
+        
+    </div>
+</body>
+</html>
