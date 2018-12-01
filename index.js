@@ -17,7 +17,7 @@ window.onload=function() {
     $("#upload_button").click(function () {
 
         // Need to reset any variables in case 
-        resetCanvas();
+        resetCanvasWithNewData();
         
         // Read the links file
         linksFile = $("#links_file")[0].files[0];
@@ -40,10 +40,25 @@ window.onload=function() {
 
 // Listens for change in the atlas
 function updateAtlas(formName) {
-    console.log(document.querySelector('input[name="'+ formName + '"]:checked').value)
+    var formValue = document.querySelector('input[name="'+ formName + '"]:checked').value;
+    atlas_dict[formName] = formValue;
+    console.log("atlas_dict[" + formName + "] = " + atlas_dict[formName])
+
+    // Check if justification changed, because it requires additional function calls besides just updating the atlas
+    if (formName === "justify") {
+        configure_alignment_to_center();
+    }
+
+    resetCanvas();
+    drawD3();
 }
 
 function resetCanvas() {
+    // Clears canvas
+    d3.select('svg').selectAll('*').remove();
+}
+
+function resetCanvasWithNewData() {
     // Clears canvas
     d3.select('svg').selectAll('*').remove();
 
@@ -54,7 +69,6 @@ function resetCanvas() {
 
     longest_col = 0;
     most_rows = 0;
-
 }
 
 function linksLoaded() {
@@ -143,13 +157,18 @@ var box_h = 30;
 var links = [];
 var nodes = [];
 var atlas = [];
+var atlas_dict = {
+    justify: "center_justify",
+    link_weight: "link_weight_default",
+    link_type: "link_type_bezier"
+};
 
 //column with the most nodes (i.e., highest number of rows in a column)
 var longest_col = 0;
 var most_rows = 0;
 
 //variables retrieved from atlas file
-var link_weight = 1;
+//var link_weight = 1;
 var link_type = 1;
 var link_color_primary = "#000000";
 var link_color_secondary = "#0a0a0a";
@@ -169,9 +188,13 @@ var svg = d3.select("body")
             .attr("id", "svg")
             .attr("style", "background:#f4f4f4");
 
+function setupCanvas() {
+    
+}
+
 function drawD3() {
     //Get data from the files and put into arrays links and nodes, respectively
-    
+    console.log("drawing d3 data")
             d3.csv("atlas.csv", function (error3, data3) {
             
             //LOAD DATA------------------------------------------------------------------
@@ -199,13 +222,13 @@ function drawD3() {
             for (var i = 0; i < atlas.length; i++) {
                 
                 var curr = atlas[i];
-                
+/*                
                 //JUSTIFY: whether the nodes are weighted at the top or the center
                 //0 = top-weighted
                 //1 = center-weighted
                 if (curr.mod === "justify") {
                     if (curr.val == 1) {
-                        reconfigure_alignment();
+                        configure_alignment_to_center();
                     }
                 }
 
@@ -224,7 +247,7 @@ function drawD3() {
                 if (curr.mod === "link_type") {
                     link_type = curr.val;
                 }
-
+*/
                 //LINK_COLOR_PRIMARY: determines color of links between nodes
                 //input is a hex value (default: #000000)
                 if (curr.mod === "link_color_primary") {
@@ -275,6 +298,7 @@ function drawD3() {
             //Create bezier curves from start to end nodes
             //Created with help from: https://bl.ocks.org/PerterB/3ace54f8a5584f51f9d8
         
+            console.log(links)
             var cubic_lines = svg.selectAll("path")
                     .data(links)
                     .enter()
@@ -298,8 +322,10 @@ function drawD3() {
                     })
                     .attr("fill", "none")
                     .attr("stroke-width", function (d) {
-                        if (link_weight == 1) {
-                            return link_weight;
+                        var link_weight_bool = atlas_dict["link_weight"] === "link_weight_default";
+                        console.log(link_weight_bool)
+                        if (atlas_dict["link_weight"] === "link_weight_default") {
+                            return 1;
                         } else {
                             if (d.weight == 0) {
                                 return 1;
@@ -498,7 +524,7 @@ function find_max_col() {
     return max + 1;
 }
 
-function reconfigure_alignment() {
+function configure_alignment_to_center() {
     
     var longest_col_length = find_col_length(longest_col);
  
@@ -534,11 +560,16 @@ function reconfigure_alignment() {
             shift = mpl - mpc;
         }
 
-        //shift all row values for this column
-        if (curr_col == nodes[i].col) {
-            nodes[i].row += shift;
+        if (atlas_dict["justify"] === "justify_center") {
+            //shift all row values for this column
+            if (curr_col == nodes[i].col) {
+                nodes[i].row += shift;
+            }
+        } else {
+            if (curr_col == nodes[i].col) {
+                nodes[i].row -= shift;
+            }
         }
-
         
     }
 }
