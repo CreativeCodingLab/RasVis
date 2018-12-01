@@ -11,15 +11,12 @@
     position: relative;
     font-family: 'Arial';
     padding: 15px;
+    font-size: .7em;
 }
 
-#sidebar {
-    text-align: center;
-}
 
 #file_uploader {
     line-height: 1em;
-    font-size: .7em;
 }
 
 table, th, td {
@@ -28,7 +25,6 @@ table, th, td {
 }
 
 tr {
-    font-size: .7em;
     line-height: 1.4em;
     text-align: left;
 }

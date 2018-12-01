@@ -8,9 +8,12 @@ var nodesDoneLoading = false;
 var linksFileReader = new FileReader();
 var nodesFileReader = new FileReader();
 
+// HTLM Interactions
 window.onload=function() {
+
+    // Atlas input listeners    
     
-// Handler to retrieve info from the CSV file
+    // Handler to retrieve info from the CSV file
     $("#upload_button").click(function () {
 
         // Need to reset any variables in case 
@@ -33,6 +36,11 @@ window.onload=function() {
         }
         
     });
+}
+
+// Listens for change in the atlas
+function updateAtlas(formName) {
+    console.log(document.querySelector('input[name="'+ formName + '"]:checked').value)
 }
 
 function resetCanvas() {
@@ -63,14 +71,14 @@ function loadFinished() {
     console.log("reached loadFinished")
     if (linksDoneLoading && nodesDoneLoading) {
         console.log("inside if")
-        parseLinks();
+        parseData();
         linksDoneLoading = false;
         nodesDoneLoading = false;
     }
     
 }
 
-function parseLinks() {
+function parseData() {
     d3.csvParse(linksFileReader.result, function (linksData) {
         
             var linksTemp = {
@@ -284,12 +292,6 @@ function drawD3() {
                         } else if (link_type == 1) {
                             return get_cubic_path ([startx, starty], [endx, endy]);
                         } else {
-                            // var w = d.weight * 3;
-                            // if (endy < starty) {
-                            //     w *= -1;
-                            // } else if (endy == starty){
-                            //     w = 0;
-                            // }
                             return get_bundled_cubic_path([startx, starty], [endx, endy]);
                         }
                         

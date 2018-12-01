@@ -33,7 +33,33 @@
                 <hr>
             </div>
 
-            <div id="output"></div>
+            <form id="atlas">
+                <p>Justify</p>
+                <input type="radio" id="justify_center" name="justify" value="center_justify" onclick="updateAtlas(this.name)"checked>
+                <label for="justify_center">Center-weighted</label>
+                <br>
+                <input type="radio" id="justify_top" name="justify" value="top_justify" onclick="updateAtlas(this.name)">
+                <label for="justify_top">Top-weighted</label>
+            
+                <p>Link Weight</p>
+                <input type="radio" id="link_weight_default" name="link_weight" value="link_weight_default" onclick="updateAtlas(this.name)" checked>
+                <label for="link_weight_default">Default</label>
+                <br>
+                <input type="radio" id="link_weight_file" name="link_weight" value="link_weight_file" onclick="updateAtlas(this.name)">
+                <label for="link_weight_file">Use weights in file</label>
+            
+                <p>Link Type</p>
+                <input type="radio" id="link_type_straight" name="link_type" value="link_type_straight" onclick="updateAtlas(this.name)">
+                <label for="link_type_straight">Straight</label>
+                <br>
+                <input type="radio" id="link_type_bezier" name="link_type" value="link_type_bezier" onclick="updateAtlas(this.name)" checked>
+                <label for="link_type_bezier">Bezier Curve</label>
+                <br>
+                <input type="radio" id="link_type_bundled_bezier" name="link_type" value="link_type_bundled_bezier" onclick="updateAtlas(this.name)">
+                <label for="link_type_bundled_bezier">Bundled Bezier Curve</label>
+                
+            </form>
+           
 
             <table>
                 <tr>
