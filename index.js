@@ -12,6 +12,9 @@ window.onload=function() {
     
 // Handler to retrieve info from the CSV file
     $("#upload_button").click(function () {
+
+        // Need to reset any variables in case 
+        resetCanvas();
         
         // Read the links file
         linksFile = $("#links_file")[0].files[0];
@@ -29,10 +32,20 @@ window.onload=function() {
             window.alert("File upload failed. Please try again.");
         }
         
-        
     });
+}
 
-    //drawD3();
+function resetCanvas() {
+    // Clears canvas
+    d3.select('svg').selectAll('*').remove();
+
+    // Reset the data arrays
+    links.length = 0;
+    nodes.length = 0;
+    atlas.length = 0;
+
+    longest_col = 0;
+    most_rows = 0;
 
 }
 
@@ -68,7 +81,6 @@ function parseLinks() {
             };
             
             links.push(linksTemp);
-
     });
 
     d3.csvParse(nodesFileReader.result, function (nodesData) {
@@ -88,6 +100,8 @@ function parseLinks() {
     })
     console.log(nodes);
     console.log(links);
+
+    // Once links and nodes have been parsed, draw the data in d3
     drawD3();
 }
 
@@ -149,8 +163,7 @@ var svg = d3.select("body")
 
 function drawD3() {
     //Get data from the files and put into arrays links and nodes, respectively
-    //d3.csv("nodes.csv", function (error1, data1) {
-    //    d3.csvParse(linksFile, function (error2, data2) {
+    
             d3.csv("atlas.csv", function (error3, data3) {
             
             //LOAD DATA------------------------------------------------------------------
