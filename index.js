@@ -41,13 +41,19 @@ window.onload=function() {
 // Listens for change in the atlas
 function updateAtlas(formName) {
     var formValue = document.querySelector('input[name="'+ formName + '"]:checked').value;
-    atlas_dict[formName] = formValue;
+    
     console.log("atlas_dict[" + formName + "] = " + atlas_dict[formName])
 
+    console.log("formName = justify");
     // Check if justification changed, because it requires additional function calls besides just updating the atlas
-    if (formName === "justify") {
+    
+    //if (formValue === "center_justify" && atlas_dict[form]) {
+    // Restricts user from pressing center-weight too many times and messing up the math
+    if (formName === "justify" && atlas_dict[formName] != "center_justify") {
         configure_alignment_to_center();
     }
+
+    atlas_dict[formName] = formValue;
 
     resetCanvas();
     drawD3();
@@ -158,7 +164,7 @@ var links = [];
 var nodes = [];
 var atlas = [];
 var atlas_dict = {
-    justify: "center_justify",
+    justify: "top_justify",
     link_weight: "link_weight_default",
     link_type: "link_type_bezier"
 };
@@ -292,6 +298,8 @@ function drawD3() {
             //Reconfigure the distance between boxes to fit the data
             reconfigure_col_space();
             reconfigure_row_space();
+
+
 
             //DRAW SVG ELEMENTS---------------------------------------------------------
             
@@ -560,16 +568,12 @@ function configure_alignment_to_center() {
             shift = mpl - mpc;
         }
 
-        if (atlas_dict["justify"] === "justify_center") {
+        
             //shift all row values for this column
-            if (curr_col == nodes[i].col) {
-                nodes[i].row += shift;
-            }
-        } else {
-            if (curr_col == nodes[i].col) {
-                nodes[i].row -= shift;
-            }
+        if (curr_col == nodes[i].col) {
+            nodes[i].row += shift;
         }
+        
         
     }
 }
