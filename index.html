@@ -17,6 +17,31 @@
     <div id="sidebar">
         <div id="atlas">
             <h2>atlas</h2>
+            
+            <div id="file_uploader">
+                <p>Links File</p>
+                <input type="file" 
+                        id="links_file"
+                        accept=".csv">
+                <hr>
+
+                <p>Nodes File</p>
+                <input type="file" id="nodes_file">
+                <hr>
+
+                <p>Header</p>
+                <select id="header">
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+                <hr>
+
+                <button id="upload_button" type="submit">Upload</button>
+                <hr>
+            </div>
+
+            <div id="output"></div>
+
             <table>
                 <tr>
                     <th>modification</th>
@@ -65,5 +90,6 @@
         </div>
         
     </div>
+    
 </body>
 </html>
